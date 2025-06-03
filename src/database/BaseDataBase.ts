@@ -19,7 +19,7 @@ export abstract class BaseDataBase {
   public abstract TABLE_NAME: string
 
   // Método para criar uma nova conta
-  public async createAccounts(login: string, password: string, secret:string, response:string): Promise<void> {
+  public async createAccounts(login: string, password: string, secret: string, response: string): Promise<void> {
     const encryptedPassword = this.encryptPassword(password)
     await BaseDataBase.connection("accounts").insert({
       login,
@@ -44,5 +44,29 @@ export abstract class BaseDataBase {
       .select("*");
     return result;
   }
+
+  // Busca uma conta pelo login
+  public async findByLogin(login: string): Promise<any | null> {
+    const result = await BaseDataBase.connection("accounts")
+      .where({ login })
+      .first()
+    return result || null
+  }
+
   
+  // Método para somar coins ao saldo atual de um usuário
+  public async addCoinsToLogin(login: string, coinsToAdd: number): Promise<void> {
+    await BaseDataBase.connection(this.TABLE_NAME)
+      .where({ login })
+      .increment('coin', coinsToAdd);
+  }
+
+  // // Você pode também manter o método para buscar o usuário, se precisar
+  // public async findByLogin(login: string): Promise<any | null> {
+  //   const result = await BaseDataBase.connection(this.TABLE_NAME)
+  //     .where({ login })
+  //     .first();
+  //   return result || null;
+  // }
+
 }

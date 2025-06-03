@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { handlerError } from "../../error/handlerError"
-import { AccountBusiness } from "../../business/accounts/AcountBusiness"
+import { AccountBusiness } from "../../business/accounts/AccountBusiness"
 import { CreateAccountSchema } from "../../dtos/accounts/CreateAccount.dto"
 
 export class AccountController {
@@ -35,8 +35,4 @@ export class AccountController {
       handlerError(res, error)
     }
   }
- 
-
-  
-
 }

@@ -9,6 +9,6 @@ export class CharacterBusiness {
     const resultDB = await this.characterDataBase.getTop10(typeKill);
     return resultDB;
   }
-  
+
 
 }

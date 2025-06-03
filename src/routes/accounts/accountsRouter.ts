@@ -1,5 +1,5 @@
 import express from "express"
-import { AccountBusiness } from "../../business/accounts/AcountBusiness"
+import { AccountBusiness } from "../../business/accounts/AccountBusiness"
 import { AccountController } from "../../controller/accounts/AccountController"
 import { AccountDataBase } from "../../database/AccountDataBase"
 

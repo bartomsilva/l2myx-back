@@ -9,12 +9,5 @@ export class AccountDataBase extends BaseDataBase {
     await this.createAccounts(newAccount.login, newAccount.password, newAccount.secretquestion, newAccount.questionresponse)
   }
 
-  // Busca uma conta pelo login
-  public async findByLogin(login: string): Promise<any | null> {
-    const result = await BaseDataBase.connection("accounts")
-      .where({ login })
-      .first()
-    return result || null
-  }
  
 }

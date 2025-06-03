@@ -9,7 +9,7 @@ export const handlerError = (res: Response, error: unknown) => {
     res.status(400).send(error.issues)
   } else if (error instanceof BaseError) {
     res.status(error.statusCode).send({message: error.message}) 
-  } else {
+  } else {    
     res.status(500).send(error)
   }
 }
