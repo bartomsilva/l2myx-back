@@ -53,20 +53,32 @@ export abstract class BaseDataBase {
     return result || null
   }
 
-  
   // Método para somar coins ao saldo atual de um usuário
   public async addCoinsToLogin(login: string, coinsToAdd: number): Promise<void> {
     await BaseDataBase.connection(this.TABLE_NAME)
       .where({ login })
-      .increment('coin', coinsToAdd);
+      .update({
+        coin: BaseDataBase.connection.raw('coin + ?', [coinsToAdd]),
+        id_donate: null,
+        qr_code: null,
+        qr_code_text: null,
+        amount: 0
+      });
   }
 
-  // // Você pode também manter o método para buscar o usuário, se precisar
-  // public async findByLogin(login: string): Promise<any | null> {
-  //   const result = await BaseDataBase.connection(this.TABLE_NAME)
-  //     .where({ login })
-  //     .first();
-  //   return result || null;
-  // }
+  // método para salvar doação não concretizaza
+  public async saveDonation(body:any) : Promise<void> {
+    const login = body.player_login;    await BaseDataBase.connection(this.TABLE_NAME)
+    .where({ login })
+    .update({
+      id_donate: body.id_donate,
+      qr_code: body.qr_code,
+      qr_code_text: body.qr_code_text,
+      approved: false,
+      amount: body.amount
+    });
+   
+  }
+
 
 }

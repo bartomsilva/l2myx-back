@@ -21,27 +21,5 @@ server.listen(PORT, () => {
 // Rotas
 server.use("/accounts", accountRouter);
 server.use("/characters", characterRouter);
-server.use("/process_payment", paymentRouter) 
-
+server.use("/payments", paymentRouter) 
  
-// // Endpoint webhook para receber notificações do Mercado Pago
-server.post("/webhook/:id", async (req, res) => {
-//   try {
-
-//     const id = req.params.id as string;
-
-//     if (!id) {
-//       return res.status(400).send("Parâmetros inválidos");
-//     }
-
-//     const paymentInfo = await paymentClient.get({ id });
-//     const status = paymentInfo.status;
-
-//     return res.status(200).send(status);
-
-//   } catch (err) {
-
-//     console.error("Erro no webhook:", err);
-//     res.status(500).send("Erro interno");
-//   }
-});

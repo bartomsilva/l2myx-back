@@ -15,5 +15,6 @@ const paymentController = new PaymentController
     )
   )
 
-paymentRouter.post("/", paymentController.processPayment)
+paymentRouter.post("/process", paymentController.processDonate)
+paymentRouter.post("/verify", paymentController.verifyDonate)  
 
