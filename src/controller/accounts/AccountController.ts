@@ -11,7 +11,7 @@ export class AccountController {
     try {
 
       const output = await this.accountBusiness.getAllLogins()
-      res.status(200).send({output})
+      res.status(200).send({ output })
 
     } catch (error) {
       handlerError(res, error)
@@ -22,15 +22,44 @@ export class AccountController {
   public createAccount = async (req: Request, res: Response): Promise<void> => {
 
     try {
-      const input:any = CreateAccountSchema.parse({
+      const input: any = CreateAccountSchema.parse({
         login: req.body.login,
         password: req.body.password,
         secretquestion: req.body.secretquestion,
         questionresponse: req.body.questionresponse
       })
       await this.accountBusiness.createAccount(input);
-      res.status(201).json({message:"Conta criada com sucesso"})
+      res.status(201).json({ message: "Conta criada com sucesso" })
 
+    } catch (error) {
+      handlerError(res, error)
+    }
+  }
+
+  public processDonate = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const response = await this.accountBusiness.processDonate(req.body);
+      res.status(200).json(response);
+    } catch (error) {
+      handlerError(res, error)
+    }
+  }
+
+  public verifyDonate = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const id = req.params.id;
+      const response = await this.accountBusiness.verifyDonate(id);
+      res.status(200).json(response);
+    } catch (error) {
+      handlerError(res, error)
+    }
+  }
+
+  public addCoinsToLogin = async (req: Request, res: Response): Promise<any> => {
+    const login = req.params.login;
+    try {
+      const response = await this.accountBusiness.addCoinsToLogin(login);
+      res.status(200).json(response);
     } catch (error) {
       handlerError(res, error)
     }

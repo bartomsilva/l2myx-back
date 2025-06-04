@@ -1,6 +1,7 @@
 import knex from "knex"
 import crypto from "crypto"
 import dotenv from "dotenv"
+import { AccountDB } from "../models/accounts/Account"
 
 dotenv.config()
 
@@ -47,7 +48,7 @@ export abstract class BaseDataBase {
 
   // Busca uma conta pelo login
   public async findByLogin(login: string): Promise<any | null> {
-    const result = await BaseDataBase.connection("accounts")
+    const result: AccountDB = await BaseDataBase.connection("accounts")
       .where({ login })
       .first()
     return result || null
@@ -55,29 +56,32 @@ export abstract class BaseDataBase {
 
   // Método para somar coins ao saldo atual de um usuário
   public async addCoinsToLogin(login: string, coinsToAdd: number): Promise<void> {
+
     await BaseDataBase.connection(this.TABLE_NAME)
       .where({ login })
       .update({
-        coin: BaseDataBase.connection.raw('coin + ?', [coinsToAdd]),
+        coin: BaseDataBase.connection.raw('IFNULL(coin, 0) + ?', [coinsToAdd]),
         id_donate: null,
         qr_code: null,
         qr_code_text: null,
-        amount: 0
+        amount: 0,
+        approved: 0
       });
   }
 
   // método para salvar doação não concretizaza
-  public async saveDonation(body:any) : Promise<void> {
-    const login = body.player_login;    await BaseDataBase.connection(this.TABLE_NAME)
-    .where({ login })
-    .update({
-      id_donate: body.id_donate,
-      qr_code: body.qr_code,
-      qr_code_text: body.qr_code_text,
-      approved: false,
-      amount: body.amount
-    });
-   
+  public async saveDonation(newDonate: any): Promise<void> {
+    const login = newDonate.player_login; await BaseDataBase.connection(this.TABLE_NAME)
+      .where({ login })
+      .update({
+        id_donate: newDonate.id_donate,
+        qr_code: newDonate.qr_code,
+        qr_code_text: newDonate.qr_code_text,
+        approved: newDonate.approved,
+        amount: newDonate.amount,
+        response: newDonate.response
+      });
+
   }
 
 

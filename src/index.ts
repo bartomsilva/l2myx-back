@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import { accountRouter } from "./routes/accounts/accountsRouter";
 import { characterRouter } from "./routes/characters/charactersRouter";
 import bodyParser from 'body-parser';
-import { paymentRouter } from "./routes/payments/paymentsRouter";
 
 dotenv.config();
 
@@ -21,5 +20,6 @@ server.listen(PORT, () => {
 // Rotas
 server.use("/accounts", accountRouter);
 server.use("/characters", characterRouter);
-server.use("/payments", paymentRouter) 
  
+
+
