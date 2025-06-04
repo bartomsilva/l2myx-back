@@ -5,7 +5,6 @@ import { AccountDB } from "../models/accounts/Account"
 
 dotenv.config()
 
-console.log(process.env.host, process.env.user_db, process.env.password_db, process.env.database)
 export abstract class BaseDataBase {
   protected static connection = knex({
     client: "mysql2",

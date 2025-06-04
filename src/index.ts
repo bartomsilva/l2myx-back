@@ -10,7 +10,6 @@ dotenv.config();
 // Defina a origem do seu frontend (o domínio da Vercel)
 const allowedOrigins = ['https://l2myx-return.ddns.net']; 
 
-
 const server = express();
 server.use(express.json());
 server.use(cors({
