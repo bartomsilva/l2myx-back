@@ -8,14 +8,15 @@ import bodyParser from 'body-parser';
 dotenv.config();
 
 // Defina a origem do seu frontend (o domínio da Vercel)
-const allowedOrigins = ['https://l2myx-return.ddns.net']; 
+// const allowedOrigins = ['https://l2myx-return.ddns.net',"localhost"]; 
 
 const server = express();
 server.use(express.json());
-server.use(cors({
-  origin: allowedOrigins,
-  credentials: true, // se estiver usando cookies ou auth com credenciais
-}));
+server.use(cors())
+// server.use(cors({
+//   origin: allowedOrigins,
+//   credentials: false, // se estiver usando cookies ou auth com credenciais
+// }));
 server.use(bodyParser.json());
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -24,10 +25,10 @@ server.listen(PORT, () => {
 });
 
 // Rotas
-server.use("/",()=> {
-  console.log("Rota raiz acessada");  
-  return "Bem-vindo à API do L2Myx!";
-});
+// server.use("/",()=> {
+//   console.log("Rota raiz acessada");  
+//   return "Bem-vindo à API do L2Myx!";
+// });
 server.use("/accounts", accountRouter);
 server.use("/characters", characterRouter);
  
