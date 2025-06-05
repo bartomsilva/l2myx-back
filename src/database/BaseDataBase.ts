@@ -69,10 +69,9 @@ export abstract class BaseDataBase {
       });
   }
 
-  // método para salvar doação não concretizaza
+  // método para salvar doação 
   public async saveDonation(newDonate: any): Promise<void> {
     const login = newDonate.player_login; 
-    return // em teste
     await BaseDataBase.connection(this.TABLE_NAME)
       .where({ login })
       .update({
