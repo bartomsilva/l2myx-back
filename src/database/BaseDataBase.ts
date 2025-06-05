@@ -71,7 +71,9 @@ export abstract class BaseDataBase {
 
   // método para salvar doação não concretizaza
   public async saveDonation(newDonate: any): Promise<void> {
-    const login = newDonate.player_login; await BaseDataBase.connection(this.TABLE_NAME)
+    const login = newDonate.player_login; 
+    return // em teste
+    await BaseDataBase.connection(this.TABLE_NAME)
       .where({ login })
       .update({
         id_donate: newDonate.id_donate,
@@ -81,7 +83,6 @@ export abstract class BaseDataBase {
         amount: newDonate.amount,
         response: newDonate.response
       });
-
   }
 
 

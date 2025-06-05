@@ -64,4 +64,24 @@ export class AccountController {
       handlerError(res, error)
     }
   }
+
+  public resetDonate = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const login = req.params.login;
+      const
+        resetDonate = {
+          player_login: login,
+          id_donate: null,
+          amount: null,
+          qr_code: null,
+          qr_code_text: null,
+          approved: null,
+          response: null
+        }
+      await this.accountBusiness.saveDonation(resetDonate);
+      res.status(200);
+    } catch (error) {
+      handlerError(res, error)
+    }
+  }
 }

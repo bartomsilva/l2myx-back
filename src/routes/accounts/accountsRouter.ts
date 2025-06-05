@@ -30,6 +30,7 @@ accountRouter.post("/", accountController.createAccount)
 accountRouter.post("/donate/process", accountController.processDonate)
 accountRouter.post("/donate/verify/:id", accountController.verifyDonate)  
 accountRouter.post("/donate/addcoins/:login", accountController.addCoinsToLogin)  
+accountRouter.post("/donate/resetdonate/:login", accountController.resetDonate)  
 
 // routes/paymentRouter.ts ou direto no server
 // accountRouter.post("/webhook", async (req, res) => {

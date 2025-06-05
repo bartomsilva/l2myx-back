@@ -27,10 +27,10 @@ export class AccountBusiness {
   }
 
   public findUserByLogin = async (login: string): Promise<any> => {
-    const result:AccountDB = await this.accountDataBase.findByLogin(login)
+    // const result:AccountDB = await this.accountDataBase.findByLogin(login)
+    const result = await this.accountDataBase.findByLogin(login)
     return result
   }
-
 
   public processDonate = async (body: any) => {
     try {
@@ -41,13 +41,14 @@ export class AccountBusiness {
         throw new BadRequestError('Erro ao processar doação! Login não informado.');
       }
 
-      const user = await this.findUserByLogin(login);
+      const user:any = await this.findUserByLogin(login);
 
       if (!user) {
         throw new BadRequestError('Erro ao processar doação! Usuário não encontrado.');
       }
+
       // verifica se o usuário já tem uma doação pendente
-      const existingDonation = user?.id_donate.trim()
+      const existingDonation = (user?.id_donate ?? '').trim();
 
       if (!existingDonation || existingDonation === null || existingDonation === "") {
         // Monta o objeto conforme a documentação da API (Checkout API v1)
@@ -71,6 +72,7 @@ export class AccountBusiness {
           response: JSON.stringify(response),
         };
         await this.accountDataBase.saveDonation(newDonate)
+
         return response
       } else {
         return await JSON.parse(user.response)
@@ -80,7 +82,6 @@ export class AccountBusiness {
     }
 
   }
-
 
   public verifyDonate = async (id: string): Promise<string> => {
 
@@ -126,6 +127,8 @@ export class AccountBusiness {
       throw error
     }
   }
+
+
 
 
   //=========== CREATE ACCOUNT
