@@ -6,10 +6,11 @@ import { ZodError } from "zod"
 export const handlerError = (res: Response, error: unknown) => {
 
   if (error instanceof ZodError) {
-    res.status(400).send(error.issues)
+    const mensagem = error.errors[0]?.message || "Erro de validação";
+    return res.status(400).json({ message: mensagem });
   } else if (error instanceof BaseError) {
-    res.status(error.statusCode).send({message: error.message}) 
-  } else {    
-    res.status(500).send(error)
+    return res.status(error.statusCode).json({ message: error.message });
+  } else {
+    return res.status(500).json({ message: "Erro interno do servidor" });
   }
 }

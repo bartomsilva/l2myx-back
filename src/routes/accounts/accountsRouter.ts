@@ -2,16 +2,6 @@ import express from "express"
 import { AccountBusiness } from "../../business/accounts/AccountBusiness"
 import { AccountController } from "../../controller/accounts/AccountController"
 import { AccountDataBase } from "../../database/AccountDataBase"
-// import { MercadoPagoConfig, Payment } from "mercadopago";
-// import dotenv from 'dotenv';
-// dotenv.config();
-// const client = new MercadoPagoConfig({
-//   accessToken: process.env.ACCESS_TOKEN_MP || "",
-//   options: {
-//     timeout: 5000,
-//   },
-// });
-// const paymentClient = new Payment(client);
 
 export const accountRouter = express.Router()
 

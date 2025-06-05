@@ -22,16 +22,11 @@ export class AccountController {
   public createAccount = async (req: Request, res: Response): Promise<void> => {
 
     try {
-      const input: any = CreateAccountSchema.parse({
-        login: req.body.login,
-        password: req.body.password,
-        secretquestion: req.body.secretquestion,
-        questionresponse: req.body.questionresponse
-      })
-      await this.accountBusiness.createAccount(input);
+      await this.accountBusiness.createAccount(req.body);
       res.status(201).json({ message: "Conta criada com sucesso" })
 
     } catch (error) {
+      console.log(error)
       handlerError(res, error)
     }
   }

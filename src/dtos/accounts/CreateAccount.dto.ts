@@ -9,12 +9,12 @@ export interface CreateAccountInputDTO {
 }
 
 export const CreateAccountSchema = z.object({
-  login: z.string(
-    {
-      required_error: "'name' é obrigatório",
-      invalid_type_error: "'name' deve ser do tipo string"
-    }).min(2, "'name' deve ter no mínimo 2 caracteres"),
-
+  login: z.string({
+    required_error: "'login' é obrigatório",
+    invalid_type_error: "'login' deve ser do tipo string"
+  })
+  .min(6, "'login' deve ter no mínimo 6 caracteres")
+  .regex(/^[^\s]+$/, "'login' não pode conter espaços"),
   password: z.string(
     {
       required_error: "'password' é obrigatória",

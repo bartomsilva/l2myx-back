@@ -4,6 +4,7 @@ import { ConflictError } from "../../error/ConflictError"
 import { AccountDB } from "../../models/accounts/Account"
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import dotenv from 'dotenv';
+import { CreateAccountSchema } from "../../dtos/accounts/CreateAccount.dto";
 
 dotenv.config();
 
@@ -120,6 +121,7 @@ export class AccountBusiness {
       throw error;
     }
   }
+
   public saveDonation = async (body: any): Promise<void> => {
     try {
       await this.accountDataBase.saveDonation(body)
@@ -128,13 +130,12 @@ export class AccountBusiness {
     }
   }
 
-
-
-
   //=========== CREATE ACCOUNT
   public createAccount = async (newAccount: AccountDB): Promise<any> => {
 
     try {
+      CreateAccountSchema.parse(newAccount)
+     
       const accountExist = await this.accountDataBase.findByLogin(newAccount.login)
 
       if (accountExist != undefined) {
