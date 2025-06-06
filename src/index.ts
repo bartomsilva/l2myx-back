@@ -27,10 +27,7 @@ server.listen(PORT, () => {
 // Rotas
 server.use("/accounts", accountRouter);
 server.use("/characters", characterRouter);
-server.use("/",()=> {
-  console.log("Rota raiz acessada");  
-  return "Bem-vindo à API do L2Myx!";
-});
+
 
 
 

@@ -5,6 +5,9 @@ import { AccountDB } from "../../models/accounts/Account"
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import dotenv from 'dotenv';
 import { CreateAccountSchema } from "../../dtos/accounts/CreateAccount.dto";
+import { LoginAccountSchema } from "../../dtos/accounts/loginAccount.dto";
+import { encryptPassword } from "../../utilities/utilities";
+import { UnAuthorizedError } from "../../error/UnAuthorized";
 
 dotenv.config();
 
@@ -42,7 +45,7 @@ export class AccountBusiness {
         throw new BadRequestError('Erro ao processar doação! Login não informado.');
       }
 
-      const user:any = await this.findUserByLogin(login);
+      const user: any = await this.findUserByLogin(login);
 
       if (!user) {
         throw new BadRequestError('Erro ao processar doação! Usuário não encontrado.');
@@ -130,18 +133,38 @@ export class AccountBusiness {
     }
   }
 
-  //=========== CREATE ACCOUNT
   public createAccount = async (newAccount: AccountDB): Promise<any> => {
 
     try {
       CreateAccountSchema.parse(newAccount)
-     
+
       const accountExist = await this.accountDataBase.findByLogin(newAccount.login)
 
       if (accountExist != undefined) {
         throw new ConflictError("Conta já cadastrada!")
       }
       await this.accountDataBase.createAccount(newAccount)
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  public loginAccount = async (userData: any): Promise<any> => {
+
+    try {
+
+      LoginAccountSchema.parse(userData)
+
+      const accountExist = await this.accountDataBase.findByLogin(userData.login)
+
+      if (!accountExist) {
+        throw new ConflictError("Conta inexistente!")
+      }
+      const passwordHashed = encryptPassword(userData.password)
+      if (passwordHashed !== accountExist.password) {
+        throw new UnAuthorizedError("Acesso negado!")
+      }
 
     } catch (error) {
       throw error

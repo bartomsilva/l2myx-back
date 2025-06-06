@@ -2,6 +2,7 @@ import knex from "knex"
 import crypto from "crypto"
 import dotenv from "dotenv"
 import { AccountDB } from "../models/accounts/Account"
+import { encryptPassword } from "../utilities/utilities"
 
 dotenv.config()
 
@@ -21,7 +22,7 @@ export abstract class BaseDataBase {
 
   // Método para criar uma nova conta
   public async createAccounts(login: string, password: string, secret: string, response: string): Promise<void> {
-    const encryptedPassword = this.encryptPassword(password)
+    const encryptedPassword = encryptPassword(password)
     await BaseDataBase.connection("accounts").insert({
       login,
       password: encryptedPassword,
@@ -30,13 +31,7 @@ export abstract class BaseDataBase {
       access_level: 0,
     })
   }
-
-  // Método para criptografar a senha
-  private encryptPassword(password: string): string {
-    const sha1Hash = crypto.createHash("sha1").update(password).digest()
-    return sha1Hash.toString("base64")
-  }
-
+ 
   public async getAllLogins(): Promise<any[]> {
     // Seleciona todas as colunas apenas para inspeção
     return []

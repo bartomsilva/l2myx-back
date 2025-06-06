@@ -18,7 +18,6 @@ export class AccountController {
     }
   }
 
-  //=========== SING UP / CREATE ACCOUNT
   public createAccount = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -26,7 +25,16 @@ export class AccountController {
       res.status(201).json({ message: "Conta criada com sucesso" })
 
     } catch (error) {
-      console.log(error)
+      handlerError(res, error)
+    }
+  }
+  
+  public loginAccount = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+      await this.accountBusiness.loginAccount(req.body);
+      res.status(201).json({ message: "Login feito com sucesso" })
+    } catch (error) {
       handlerError(res, error)
     }
   }
