@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import { handlerError } from "../../error/handlerError"
 import { AccountBusiness } from "../../business/accounts/AccountBusiness"
-import { CreateAccountSchema } from "../../dtos/accounts/CreateAccount.dto"
 
 export class AccountController {
   constructor(private accountBusiness: AccountBusiness) { }
@@ -28,7 +27,7 @@ export class AccountController {
       handlerError(res, error)
     }
   }
-  
+
   public loginAccount = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -48,9 +47,10 @@ export class AccountController {
     }
   }
 
+  // verificação de doação = OK
   public verifyDonate = async (req: Request, res: Response): Promise<any> => {
     try {
-      const id = req.params.id;
+      const { id } = req.body;
       const response = await this.accountBusiness.verifyDonate(id);
       res.status(200).json(response);
     } catch (error) {
@@ -59,7 +59,7 @@ export class AccountController {
   }
 
   public addCoinsToLogin = async (req: Request, res: Response): Promise<any> => {
-    const login = req.params.login;
+    const login = req.body.login as string
     try {
       const response = await this.accountBusiness.addCoinsToLogin(login);
       res.status(200).json(response);
@@ -70,7 +70,10 @@ export class AccountController {
 
   public resetDonate = async (req: Request, res: Response): Promise<any> => {
     try {
-      const login = req.params.login;
+
+      const login = req.body.login;
+      const paymentId = req.body.paymentId;
+
       const
         resetDonate = {
           player_login: login,
@@ -81,10 +84,41 @@ export class AccountController {
           approved: null,
           response: null
         }
+
+      await this.cancelPayment(req.body.paymentId);
       await this.accountBusiness.saveDonation(resetDonate);
-      res.status(200);
+      res.status(200).json({ message: "Doação resetada com sucesso" });
+
     } catch (error) {
+
       handlerError(res, error)
+
     }
   }
+
+  private cancelPayment = async (paymentId: string) => {
+    try {
+      const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${process.env.ACCESS_TOKEN_MP}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: "cancelled",
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Erro ao cancelar o pagamento");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
 }

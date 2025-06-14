@@ -15,10 +15,20 @@ const accountController = new AccountController
 //================== GET all account (test)
 accountRouter.get("/", accountController.getAllLogins)
 
-//================== SING UP / CREATE accout / Donate
-accountRouter.post("/", accountController.createAccount)
+// CREATE accout 
+accountRouter.post("/", accountController.createAccount);
+
+// login account
 accountRouter.post("/login", accountController.loginAccount)
-accountRouter.post("/donate/process", accountController.processDonate)
-accountRouter.post("/donate/verify/:id", accountController.verifyDonate)  
-accountRouter.post("/donate/addcoins/:login", accountController.addCoinsToLogin)  
-accountRouter.post("/donate/resetdonate/:login", accountController.resetDonate)  
+
+// efetua doação
+accountRouter.post("/donate", accountController.processDonate);
+
+// verifica doação - OK
+accountRouter.post("/donate/verify", accountController.verifyDonate);
+
+// add coins to login
+accountRouter.post("/donate/adcoins", accountController.addCoinsToLogin);
+
+// reset na doação
+accountRouter.post("/donate/reset", accountController.resetDonate);

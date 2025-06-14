@@ -45,7 +45,7 @@ export class AccountBusiness {
         throw new BadRequestError('Erro ao processar doação! Login não informado.');
       }
 
-      const user: any = await this.findUserByLogin(login);
+      const user:any = await this.findUserByLogin(login);
 
       if (!user) {
         throw new BadRequestError('Erro ao processar doação! Usuário não encontrado.');
@@ -87,6 +87,7 @@ export class AccountBusiness {
 
   }
 
+  // OK
   public verifyDonate = async (id: string): Promise<string> => {
 
     if (!id) {
@@ -106,7 +107,6 @@ export class AccountBusiness {
   }
 
   public addCoinsToLogin = async (login: string): Promise<void> => {
-
     try {
       if (!login) {
         throw new BadRequestError('Doação inválida');
