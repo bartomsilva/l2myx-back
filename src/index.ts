@@ -7,27 +7,27 @@ import bodyParser from 'body-parser';
 
 dotenv.config();
 
-// Defina a origem do seu frontend (o domínio da Vercel)
-// const allowedOrigins = ['https://l2myx-return.ddns.net',"localhost"]; 
-
 const server = express();
 server.use(express.json());
-server.use(cors())
-// server.use(cors({
-//   origin: allowedOrigins,
-//   credentials: false, // se estiver usando cookies ou auth com credenciais
-// }));
+// server.use(cors())
+server.use(cors({ origin: '*', methods: ['GET','POST','PUT','DELETE','OPTIONS'], allowedHeaders: ['Content-Type'] }));
+
 server.use(bodyParser.json());
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 3003;
+
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando na porta ${PORT}`);
+});
+
+
+server.get("/ping", (req, res) => {
+  res.send("servidor online");
 });
 
 // Rotas
 server.use("/accounts", accountRouter);
 server.use("/characters", characterRouter);
-
 
 
 

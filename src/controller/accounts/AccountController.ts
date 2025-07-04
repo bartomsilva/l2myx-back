@@ -85,7 +85,7 @@ export class AccountController {
           response: null
         }
 
-      await this.cancelPayment(req.body.paymentId);
+      await this.accountBusiness.cancelPayment(req.body.paymentId);
       await this.accountBusiness.saveDonation(resetDonate);
       res.status(200).json({ message: "Doação resetada com sucesso" });
 
@@ -96,29 +96,6 @@ export class AccountController {
     }
   }
 
-  private cancelPayment = async (paymentId: string) => {
-    try {
-      const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${process.env.ACCESS_TOKEN_MP}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: "cancelled",
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Erro ao cancelar o pagamento");
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  };
+  
 
 }
