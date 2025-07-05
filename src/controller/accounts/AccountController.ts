@@ -31,8 +31,8 @@ export class AccountController {
   public loginAccount = async (req: Request, res: Response): Promise<void> => {
 
     try {
-      await this.accountBusiness.loginAccount(req.body);
-      res.status(201).json({ message: "Login feito com sucesso" })
+      const response = await this.accountBusiness.loginAccount(req.body);
+      res.status(201).send(response)
     } catch (error) {
       handlerError(res, error)
     }

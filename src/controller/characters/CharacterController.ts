@@ -18,4 +18,29 @@ export class CharacterController {
     }
   }
 
+  public getAllCharInLogin = async (req: Request, res: Response): Promise<any> => {
+    try {
+
+      const response = await this.characterBusiness.getAllCharInLogin(req.params.login as string)
+      res.status(200).send(response)
+
+    } catch (error) {
+      handlerError(res, error)
+    }
+  }
+
+  public tradeCoins = async (req: Request, res: Response): Promise<void> => {
+    try {
+
+      const login = req.body.login
+      const charId = req.body.obj_id
+      const quant = req.body.coins
+
+     await this.characterBusiness.tradeCoins(login,charId,quant)
+      res.status(200).send("Moedas trocadas com sucesso")
+
+    } catch (error) {
+      handlerError(res, error)
+    }
+  }
 }

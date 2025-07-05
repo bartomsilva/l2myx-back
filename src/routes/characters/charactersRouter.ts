@@ -16,3 +16,5 @@ const characterController = new CharacterController
   )
 
   characterRouter.get("/top10/:typeKill", characterController.getTop10);
+  characterRouter.get("/:login", characterController.getAllCharInLogin)
+  characterRouter.post("/", characterController.tradeCoins)

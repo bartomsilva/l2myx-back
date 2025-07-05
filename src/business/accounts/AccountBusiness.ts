@@ -171,6 +171,11 @@ export class AccountBusiness {
       if (passwordHashed !== accountExist.password) {
         throw new UnAuthorizedError("Acesso negado!")
       }
+      const userResponse = {
+        login: accountExist.login,
+        coins: accountExist.coin ||0
+            }
+      return userResponse
 
     } catch (error) {
       throw error
