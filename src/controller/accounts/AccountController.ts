@@ -9,8 +9,8 @@ export class AccountController {
   public getAllLogins = async (req: Request, res: Response): Promise<any> => {
     try {
 
-      const output = await this.accountBusiness.getAllLogins()
-      res.status(200).send({ output })
+      const response = await this.accountBusiness.getAllLogins()
+      res.status(200).send( response )
 
     } catch (error) {
       handlerError(res, error)

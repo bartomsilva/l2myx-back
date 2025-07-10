@@ -10,8 +10,8 @@ export class CharacterController {
   public getTop10 = async (req: Request, res: Response): Promise<any> => {
     try {
 
-      const output = await this.characterBusiness.getTop10(req.params.typeKill as "pvpkills" | "pkkills")
-      res.status(200).send({output})
+      const response = await this.characterBusiness.getTop10(req.params.typeKill as "pvpkills" | "pkkills")
+      res.status(200).send(response)
 
     } catch (error) {
       handlerError(res, error)
