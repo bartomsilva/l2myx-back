@@ -29,10 +29,9 @@ server.use(limiter)
 server.use(cors({
   origin: [
     'https://l2myx.surge.sh',
-    'https://apil2jmyx.criarsite.online',
-    'http://localhost:3003',
-    'http://192.168.88.3:3003'],
-    credentials: false,
+    'http://localhost:5000',
+    'https://apil2jmyx.criarsite.online'],
+  credentials: false,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
