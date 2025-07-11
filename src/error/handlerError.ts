@@ -5,6 +5,7 @@ import { ZodError } from "zod"
 
 export const handlerError = (res: Response, error: unknown) => {
 
+  console.log(error)
   if (error instanceof ZodError) {
     const mensagem = error.errors[0]?.message || "Erro de validação";
     return res.status(400).json({ message: mensagem });
